@@ -1,17 +1,14 @@
-import React, { useState } from "react";
-import { useCharacters } from "../hooks/useCharacters";
-import { Pagination } from "./Pagination";
+import React, { useState } from 'react';
+import { useCharacters } from '../hooks/useCharacters';
+import { Pagination } from './Pagination';
+import { CharacterGallery } from './CharacterGallery'; 
 
 export const RickApp = () => {
   const [page, setPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSpecies, setSelectedSpecies] = useState("All");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedSpecies, setSelectedSpecies] = useState('All');
 
-  const { characters, loading, totalPages, availableSpecies } = useCharacters(
-    searchTerm,
-    selectedSpecies,
-    page
-  );
+  const { characters, loading, totalPages, availableSpecies } = useCharacters(searchTerm, selectedSpecies, page);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -22,9 +19,11 @@ export const RickApp = () => {
     setSelectedSpecies(e.target.value);
     setPage(1);
   };
+
   return (
     <div className="container">
       <h1>Rick and Morty Characters</h1>
+
       <input
         type="text"
         placeholder="Search characters..."
@@ -52,15 +51,7 @@ export const RickApp = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className="character-grid">
-          {characters.map((character) => (
-            <div key={character.id} className="character-card">
-              <img src={character.image} alt={character.name} />
-              <h3>{character.name}</h3>
-              <p>{character.species}</p>
-            </div>
-          ))}
-        </div>
+        <CharacterGallery characters={characters} /> 
       )}
 
       <Pagination
